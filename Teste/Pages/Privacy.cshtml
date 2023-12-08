@@ -1,0 +1,19 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Cadastro";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <fieldset>
+        <div>
+            <label for="Nome">Nome</label>
+            <input type="text" name="Nome" value="" placeholder="Digite o nome da Empresa"/>
+        </div>
+        <div>
+            <label for="CNPJ">CNPJ</label>
+            <input type="number" name="CNPJ" value="" placeholder="Digite o CNPJ"/>
+        </div>
+    </fieldset>
+</form>
