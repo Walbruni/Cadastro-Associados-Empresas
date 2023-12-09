@@ -18,13 +18,13 @@ namespace Teste.Controllers
         }
 
         [HttpGet("{nome}/{cnpj}")]
-        public async Task<ActionResult<IEnumerable<Empresas>>> GetEmpresas(string? nome, string? cnpj)
+        public async Task<ActionResult<IEnumerable<EmpresasEntity>>> GetEmpresas(string? nome, string? cnpj)
         {
             return await _empresaServico.GetEmpresas(nome, cnpj);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Empresas>> GetEmpresas(int id)
+        public async Task<ActionResult<EmpresasEntity>> GetEmpresas(int id)
         {
             var empresa = await _empresaServico.GetEmpresa(id);
 
@@ -37,13 +37,13 @@ namespace Teste.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Empresas>> PostEmpresas(Empresas empresa)
+        public async Task<ActionResult<EmpresasEntity>> PostEmpresas(EmpresasEntity empresa)
         {
             return Ok(_empresaServico.PostEmpresas(empresa));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmpresas(int id, Empresas empresa)
+        public async Task<IActionResult> PutEmpresas(int id, EmpresasEntity empresa)
         {
 
             if(empresa.Id != id)

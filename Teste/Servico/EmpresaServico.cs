@@ -17,24 +17,24 @@ namespace Teste.Servico
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Empresas>>> GetEmpresas(string? nome, string? cnpj)
+        public async Task<ActionResult<IEnumerable<EmpresasEntity>>> GetEmpresas(string? nome, string? cnpj)
         {
             return await _context.Empresas.Where(x => x.Nome == nome && x.CNPJ == cnpj).ToListAsync();
         }
 
-        public async Task<ActionResult<Empresas>> GetEmpresa(int id)
+        public async Task<ActionResult<EmpresasEntity>> GetEmpresa(int id)
         {
             return await _context.Empresas.FindAsync(id);
         }
 
-        public EntityEntry<Empresas> PostEmpresas(Empresas empresa)
+        public EntityEntry<EmpresasEntity> PostEmpresas(EmpresasEntity empresa)
         {
             var x = _context.Empresas.Add(empresa);
             _context.SaveChangesAsync();
             return x;
         }
 
-        public async void PutEmpresas(int id, Empresas empresa)
+        public async void PutEmpresas(int id, EmpresasEntity empresa)
         {
 
             var empresaRetorno = await _context.Empresas.FindAsync(id);

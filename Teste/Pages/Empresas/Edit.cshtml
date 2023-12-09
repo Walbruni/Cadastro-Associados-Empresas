@@ -1,0 +1,42 @@
+﻿@page
+@model Teste.Pages.Empresas.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar</h1>
+
+<h4>Empresas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmpresasEntity.Id" />
+            <div class="form-group">
+                <label asp-for="EmpresasEntity.Nome" class="control-label"></label>
+                <input asp-for="EmpresasEntity.Nome" class="form-control" />
+                <span asp-validation-for="EmpresasEntity.Nome" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="EmpresasEntity.CNPJ" class="control-label"></label>
+                <input asp-for="EmpresasEntity.CNPJ" class="form-control" />
+                <span asp-validation-for="EmpresasEntity.CNPJ" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+    <a asp-page="./Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

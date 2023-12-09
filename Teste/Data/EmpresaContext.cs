@@ -11,6 +11,6 @@ namespace Data
 
         }
 
-        public DbSet<Empresas> Empresas { get; set; }
+        public DbSet<EmpresasEntity> Empresas { get; set; }
     }
 }

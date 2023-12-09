@@ -1,8 +1,8 @@
 ﻿@page
-@model Teste.Pages.Associados.IndexModel
+@model Teste.Pages.Empresas.IndexModel
 
 @{
-    ViewData["Title"] = "Associados";
+    ViewData["Title"] = "Empresas";
 }
 
 <p>
@@ -12,28 +12,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AssociadosEntity[0].Nome)
+                @Html.DisplayNameFor(model => model.EmpresasEntity[0].Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AssociadosEntity[0].CPF)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssociadosEntity[0].Data_Nascimento)
+                @Html.DisplayNameFor(model => model.EmpresasEntity[0].CNPJ)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.AssociadosEntity) {
+@foreach (var item in Model.EmpresasEntity) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CPF)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data_Nascimento)
+                @Html.DisplayFor(modelItem => item.CNPJ)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |

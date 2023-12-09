@@ -16,7 +16,7 @@ namespace Teste.Model
         public int CD_associado { get; set; }*/
 
         [ForeignKey("CD_empresa")]
-        public Empresas empresa { get; set; }
+        public EmpresasEntity empresa { get; set; }
 
         [ForeignKey("CD_associado")]
         public AssociadosEntity associados { get; set; }
