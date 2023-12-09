@@ -16,6 +16,7 @@ namespace Teste.Data
 
         public DbSet<Teste.Model.AssociadosEntity> AssociadosEntity { get; set; } = default!;
         public DbSet<Teste.Model.EmpresasEntity> EmpresasEntity { get; set; } = default!;
+        //public DbSet<Teste.Model.AssociadoEmpresaEntity> AssociadoEmpresas { get; set; } = default!;
 
         
     }

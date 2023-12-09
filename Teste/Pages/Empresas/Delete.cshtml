@@ -2,13 +2,13 @@
 @model Teste.Pages.Empresas.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Excluir";
 }
 
-<h1>Deseja deletar esse cadastro?</h1>
+<h1>Deseja excluir esse cadastro?</h1>
 
 <div>
-    <h4>Empresas</h4>
+    <h4>Empresa</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -27,7 +27,7 @@
     
     <form method="post">
         <input type="hidden" asp-for="EmpresasEntity.Id" />
-        <input type="submit" value="Deletar" class="btn btn-danger" /> 
+        <input type="submit" value="Excluir" class="btn btn-danger" /> 
         <br />
         <br />
         <a asp-page="./Index">Voltar</a>

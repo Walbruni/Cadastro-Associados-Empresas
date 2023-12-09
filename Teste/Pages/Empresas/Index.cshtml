@@ -5,9 +5,14 @@
     ViewData["Title"] = "Empresas";
 }
 
-<p>
-    <a asp-page="Create">Novo Cadastro</a>
-</p>
+<header class="container p-3">
+    <div class="row align-items-center">
+        <p>
+            <div class="col-sm-6 text-right"><a asp-page="Create" class="btn btn-primary">Novo Cadastro</a></div>
+        </p>
+    </div>
+</header>
+
 <table class="table">
     <thead>
         <tr>
@@ -30,9 +35,9 @@
                 @Html.DisplayFor(modelItem => item.CNPJ)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Deletar</a>
+                <a class="btn btn-secondary btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
+                <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.Id">Detalhes</a> |
+                <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Excluir</a>
             </td>
         </tr>
 }

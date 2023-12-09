@@ -19,10 +19,13 @@ namespace Teste.Model
         [Column("CPF")]
         [Required(ErrorMessage = "É obrigatório o preenchimento do campo {0}!")]
         [MaxLength(11)]
+        [RegularExpression(@"[0-9]{11}$")]
         public string CPF { get; set; }
 
         [Column("Data_Nascimento")]
-        public DateTime? Data_Nascimento { get; set; }
+        [DisplayName("Data de Nascimento")]
+        [DataType(DataType.Date)]
+        public DateTime Data_Nascimento { get; set; }
 
         //[NotMapped]
         //public IList<EmpresasEntity> empresas;

@@ -20,6 +20,6 @@ namespace Teste.Model
         [MaxLength(14)]
         public string CNPJ { get; set; }
 
-        //public ICollection<AssociadoEmpresa> associadosEmpresas { get; set; }
+        //public ICollection<AssociadoEmpresaEntity> associadosEmpresas { get; set; }
     }
 }
