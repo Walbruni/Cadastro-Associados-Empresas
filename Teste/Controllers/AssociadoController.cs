@@ -16,13 +16,13 @@ namespace Teste.Controllers
         }
 
         [HttpGet("{nome}/{cpf}")]
-        public async Task<ActionResult<IEnumerable<Associados>>> GetAssociados(string? nome, string? cpf)
+        public async Task<ActionResult<IEnumerable<AssociadosEntity>>> GetAssociados(string? nome, string? cpf)
         {
             return await _associadoServico.GetAssociados(nome, cpf);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Associados>> GetAssociados(int id)
+        public async Task<ActionResult<AssociadosEntity>> GetAssociados(int id)
         {
             var associado = await _associadoServico.GetAssociados(id);
 
@@ -35,13 +35,13 @@ namespace Teste.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Associados>> PostAssociados(Associados associado)
+        public async Task<ActionResult<AssociadosEntity>> PostAssociados(AssociadosEntity associado)
         {
             return Ok(_associadoServico.PostAssociados(associado));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAssociados(int id, Associados associado)
+        public async Task<IActionResult> PutAssociados(int id, AssociadosEntity associado)
         {
 
             if (associado.Id != id)

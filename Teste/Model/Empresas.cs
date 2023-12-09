@@ -7,7 +7,7 @@ namespace Teste.Model
     public class Empresas
     {
         [Column("Id")]
-        public int IdEmpresas { get; set; }
+        public int Id { get; set; }
 
         [Column("Nome")]
         [Required(ErrorMessage = "É obrigatório o preenchimento do campo {}!")]
@@ -16,5 +16,7 @@ namespace Teste.Model
         [Column("CNPJ")]
         [Required(ErrorMessage = "É obrigatório o preenchimento do campo {}!")]
         public string CNPJ { get; set; }
+
+        public ICollection<AssociadoEmpresa> associadosEmpresas { get; set; }
     }
 }
