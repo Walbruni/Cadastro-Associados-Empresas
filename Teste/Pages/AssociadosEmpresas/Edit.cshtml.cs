@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Teste.Data;
+using Teste.Model;
+
+namespace Teste.Pages.AssociadosEmpresas
+{
+    public class EditModel : PageModel
+    {
+        private readonly Teste.Data.AplicationDbContext _context;
+
+        public EditModel(Teste.Data.AplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [BindProperty]
+        public AssociadoEmpresaEntity AssociadoEmpresaEntity { get; set; } = default!;
+
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var associadoempresaentity =  await _context.AssociadoEmpresaEntity.FirstOrDefaultAsync(m => m.Id == id);
+            if (associadoempresaentity == null)
+            {
+                return NotFound();
+            }
+            AssociadoEmpresaEntity = associadoempresaentity;
+           ViewData["CD_associado"] = new SelectList(_context.AssociadosEntity, "Id", "CPF");
+           ViewData["CD_empresa"] = new SelectList(_context.EmpresasEntity, "Id", "CNPJ");
+            return Page();
+        }
+
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            _context.Attach(AssociadoEmpresaEntity).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AssociadoEmpresaEntityExists(AssociadoEmpresaEntity.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToPage("./Index");
+        }
+
+        private bool AssociadoEmpresaEntityExists(int id)
+        {
+            return _context.AssociadoEmpresaEntity.Any(e => e.Id == id);
+        }
+    }
+}

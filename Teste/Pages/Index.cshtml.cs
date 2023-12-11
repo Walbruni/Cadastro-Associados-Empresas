@@ -27,7 +27,7 @@ namespace Teste.Pages
         {
                 Empresas = _context.EmpresasEntity.ToList<EmpresasEntity>();
                 Associados = _context.AssociadosEntity.ToList<AssociadosEntity>();
-                //AssociadoEmpresas = _context.AssociadoEmpresaEntity.ToList<AssociadoEmpresaEntity>();  
+                AssociadoEmpresas = _context.AssociadoEmpresaEntity.ToList<AssociadoEmpresaEntity>();  
 
         }
     }

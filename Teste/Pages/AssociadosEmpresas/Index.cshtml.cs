@@ -8,25 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using Teste.Data;
 using Teste.Model;
 
-namespace Teste.Pages.Associados
+namespace Teste.Pages.AssociadosEmpresas
 {
     public class IndexModel : PageModel
     {
         private readonly Teste.Data.AplicationDbContext _context;
-        private readonly Teste.Servico.AssociadoServico _servico;
 
-        public IndexModel(Teste.Data.AplicationDbContext context, Teste.Servico.AssociadoServico servico)
+        public IndexModel(Teste.Data.AplicationDbContext context)
         {
             _context = context;
-            _servico = servico; 
         }
 
-        public IList<AssociadosEntity> AssociadosEntity { get;set; } = default!;
+        public IList<AssociadoEmpresaEntity> AssociadoEmpresaEntity { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            AssociadosEntity = await _context.AssociadosEntity.ToListAsync();
-            AssociadosEntity = await _servico.GetAssociados(null, null);
+            AssociadoEmpresaEntity = await _context.AssociadoEmpresaEntity
+                .Include(a => a.associados)
+                .Include(a => a.empresa).ToListAsync();
         }
     }
 }

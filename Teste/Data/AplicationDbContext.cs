@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Teste.Model;
+
 
 namespace Teste.Data
 {
@@ -16,7 +13,8 @@ namespace Teste.Data
 
         public DbSet<Teste.Model.AssociadosEntity> AssociadosEntity { get; set; } = default!;
         public DbSet<Teste.Model.EmpresasEntity> EmpresasEntity { get; set; } = default!;
-        //public DbSet<Teste.Model.AssociadoEmpresaEntity> AssociadoEmpresas { get; set; } = default!;
+        public DbSet<Teste.Model.AssociadoEmpresaEntity> AssociadoEmpresaEntity { get; set; } = default!;
+        //public DbSet<Teste.Model.AssociadoEmpresaEntity> AssociadoEmpresaEntity { get; set; } = default!;
 
         
     }

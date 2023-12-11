@@ -15,7 +15,7 @@ namespace Teste.Servico
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<AssociadosEntity>>> GetAssociados(string? nome, string? cpf)
+        public async Task<List<AssociadosEntity>> GetAssociados(string? nome, string? cpf)
         {
             return await _context.Associados.Where(x => x.Nome == nome && x.CPF == cpf).ToListAsync();
         }

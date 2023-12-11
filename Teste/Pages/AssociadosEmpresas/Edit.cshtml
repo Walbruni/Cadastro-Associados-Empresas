@@ -1,0 +1,42 @@
+﻿@page
+@model Teste.Pages.AssociadosEmpresas.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar</h1>
+
+<h4>Associados e Empresas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AssociadoEmpresaEntity.Id" />
+            <div class="form-group">
+                <label asp-for="AssociadoEmpresaEntity.CD_empresa" class="control-label"></label>
+                <select asp-for="AssociadoEmpresaEntity.CD_empresa" class="form-control" asp-items="ViewBag.CD_empresa"></select>
+                <span asp-validation-for="AssociadoEmpresaEntity.CD_empresa" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="AssociadoEmpresaEntity.CD_associado" class="control-label"></label>
+                <select asp-for="AssociadoEmpresaEntity.CD_associado" class="form-control" asp-items="ViewBag.CD_associado"></select>
+                <span asp-validation-for="AssociadoEmpresaEntity.CD_associado" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+    <a asp-page="./Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

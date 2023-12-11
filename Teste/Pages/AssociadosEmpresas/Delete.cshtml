@@ -1,0 +1,35 @@
+﻿@page
+@model Teste.Pages.AssociadosEmpresas.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Deseja excluir esse relaciomento?</h3>
+
+<div>
+    <h4>Associado e Empresas</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AssociadoEmpresaEntity.empresa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AssociadoEmpresaEntity.empresa.CNPJ)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AssociadoEmpresaEntity.associados)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AssociadoEmpresaEntity.associados.CPF)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="AssociadoEmpresaEntity.Id" />
+        <input type="submit" value="Excluir" class="btn btn-danger" />
+        <br />
+        <br />
+        <a asp-page="./Index">Voltar</a>
+    </form>
+</div>
