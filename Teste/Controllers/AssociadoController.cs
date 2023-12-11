@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Teste.Model;
-using Teste.Servico;
+using Teste.Servico.Interface;
 
 namespace Teste.Controllers
 {
@@ -8,23 +8,23 @@ namespace Teste.Controllers
     [ApiController]
     public class AssociadoController : ControllerBase
     {
-        private readonly AssociadoServico _associadoServico;
+        private readonly IAssociadoServico _associadoServico;
 
-        public AssociadoController(AssociadoServico associadoServico)
+        public AssociadoController(IAssociadoServico associadoServico)
         {
             _associadoServico = associadoServico;
         }
 
-        [HttpGet("{nome}/{cpf}")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<AssociadosEntity>>> GetAssociados(string? nome, string? cpf)
         {
-            return await _associadoServico.GetAssociados(nome, cpf);
+            return _associadoServico.GetAssociados(nome, cpf);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AssociadosEntity>> GetAssociados(int id)
+        public async Task<ActionResult<AssociadosEntity>> BuscarAssociado(int id)
         {
-            var associado = await _associadoServico.GetAssociados(id);
+            var associado = _associadoServico.BuscarAssociado(id);
 
             if (associado == null) 
             {
@@ -35,28 +35,28 @@ namespace Teste.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssociadosEntity>> PostAssociados(AssociadosEntity associado)
+        public async Task<ActionResult<AssociadosEntity>> CriarAssociados(AssociadosEntity associado)
         {
-            return Ok(_associadoServico.PostAssociados(associado));
+            return Ok(_associadoServico.CriarAssociados(associado));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAssociados(int id, AssociadosEntity associado)
+        public async Task<IActionResult> AlterarAssociados(int id, AssociadosEntity associado)
         {
 
             if (associado.Id != id)
             {
                 return BadRequest();
             }
-            _associadoServico.PutAssociados(id, associado);
+            _associadoServico.AlterarAssociados(id, associado);
             return NoContent();
 
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAssociados(int id)
+        public async Task<IActionResult> DeletarAssociados(int id)
         {
-            _associadoServico.DeleteAssociados(id);
+            _associadoServico.DeletarAssociados(id);
             return NoContent();
         }
            

@@ -1,46 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Teste.Data;
 using Teste.Model;
+using Teste.Servico.Interface;
 
 namespace Teste.Pages.Empresas
 {
     public class EditModel : PageModel
     {
-        private readonly Teste.Data.AplicationDbContext _context;
+        private readonly IEmpresaServico _empresaServico;
 
-        public EditModel(Teste.Data.AplicationDbContext context)
+        public EditModel(IEmpresaServico empresaServico)
         {
-            _context = context;
+            _empresaServico = empresaServico;
         }
 
         [BindProperty]
         public EmpresasEntity EmpresasEntity { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var empresasentity =  await _context.EmpresasEntity.FirstOrDefaultAsync(m => m.Id == id);
-            if (empresasentity == null)
+            var empresaentity = _empresaServico.BuscarEmpresa(id);
+            if (empresaentity == null)
             {
                 return NotFound();
             }
-            EmpresasEntity = empresasentity;
+            EmpresasEntity = empresaentity;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,11 +41,9 @@ namespace Teste.Pages.Empresas
                 return Page();
             }
 
-            _context.Attach(EmpresasEntity).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _empresaServico.AlterarEmpresas(EmpresasEntity.Id, EmpresasEntity);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +62,12 @@ namespace Teste.Pages.Empresas
 
         private bool EmpresasEntityExists(int id)
         {
-            return _context.EmpresasEntity.Any(e => e.Id == id);
+            var empresasentity = _empresaServico.BuscarEmpresa(id);
+            if (empresasentity != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

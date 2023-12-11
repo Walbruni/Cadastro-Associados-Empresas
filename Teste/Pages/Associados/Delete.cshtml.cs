@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Teste.Data;
 using Teste.Model;
+using Teste.Servico.Interface;
 
 namespace Teste.Pages.Associados
 {
     public class DeleteModel : PageModel
     {
-        private readonly Teste.Data.AplicationDbContext _context;
+        private readonly IAssociadoServico _associadoServico;
+        private readonly IAssociadoEmpresaServico _associadoEmpresaServico;
 
-        public DeleteModel(Teste.Data.AplicationDbContext context)
+        public DeleteModel(IAssociadoServico associadoServico, IAssociadoEmpresaServico associadoEmpresaServico)
         {
-            _context = context;
+            _associadoServico = associadoServico;
+            _associadoEmpresaServico = associadoEmpresaServico;
         }
 
         [BindProperty]
         public AssociadosEntity AssociadosEntity { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var associadosentity = await _context.AssociadosEntity.FirstOrDefaultAsync(m => m.Id == id);
+            var associadosentity = _associadoServico.BuscarAssociado(id);
 
             if (associadosentity == null)
             {
@@ -42,22 +39,18 @@ namespace Teste.Pages.Associados
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+
+                await _associadoEmpresaServico.DeletarAssociadoEmpresaPorIdAssociado(id);
+                await _associadoServico.DeletarAssociados(id);
+
+                return RedirectToPage("./Index");
             }
 
-            var associadosentity = await _context.AssociadosEntity.FindAsync(id);
-            if (associadosentity != null)
-            {
-                AssociadosEntity = associadosentity;
-                _context.AssociadosEntity.Remove(AssociadosEntity);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            return NotFound();
         }
     }
 }

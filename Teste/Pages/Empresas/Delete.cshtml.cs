@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Teste.Data;
 using Teste.Model;
+using Teste.Servico.Interface;
 
 namespace Teste.Pages.Empresas
 {
     public class DeleteModel : PageModel
     {
-        private readonly Teste.Data.AplicationDbContext _context;
+        private readonly IEmpresaServico _empresaServico;
+        private readonly IAssociadoEmpresaServico _associadoEmpresaServico;
 
-        public DeleteModel(Teste.Data.AplicationDbContext context)
+        public DeleteModel(IEmpresaServico empresaServico, IAssociadoEmpresaServico associadoEmpresaServico)
         {
-            _context = context;
+            _empresaServico = empresaServico;
+            _associadoEmpresaServico = associadoEmpresaServico;
         }
 
         [BindProperty]
         public EmpresasEntity EmpresasEntity { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var empresasentity = await _context.EmpresasEntity.FirstOrDefaultAsync(m => m.Id == id);
+            var empresasentity = _empresaServico.BuscarEmpresa(id);
 
             if (empresasentity == null)
             {
@@ -42,22 +39,18 @@ namespace Teste.Pages.Empresas
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+
+                await _associadoEmpresaServico.DeletarAssociadoEmpresaPorIdAssociado(id);
+                await _empresaServico.DeletarEmpresas(id);
+
+                return RedirectToPage("./Index");
             }
 
-            var empresasentity = await _context.EmpresasEntity.FindAsync(id);
-            if (empresasentity != null)
-            {
-                EmpresasEntity = empresasentity;
-                _context.EmpresasEntity.Remove(EmpresasEntity);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            return NotFound();
         }
     }
 }

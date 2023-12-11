@@ -25,10 +25,7 @@ namespace Teste.Model
         [Column("Data_Nascimento")]
         [DisplayName("Data de Nascimento")]
         [DataType(DataType.Date)]
-        public DateTime? Data_Nascimento { get; set; }
-
-        //[NotMapped]
-        //public IList<EmpresasEntity> empresas;
+        public DateTime? DataNascimento { get; set; }
         
     }
 }

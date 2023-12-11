@@ -1,43 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Teste.Data;
 using Teste.Model;
+using Teste.Servico.Interface;
 
 namespace Teste.Pages.Empresas
 {
     public class DetailsModel : PageModel
     {
-        private readonly Teste.Data.AplicationDbContext _context;
+        private readonly IEmpresaServico _empresaServico;
 
-        public DetailsModel(Teste.Data.AplicationDbContext context)
+        public DetailsModel(IEmpresaServico empresaServico)
         {
-            _context = context;
+            _empresaServico = empresaServico;
         }
 
         public EmpresasEntity EmpresasEntity { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                var empresasentity = _empresaServico.BuscarEmpresa(id);
+                if (empresasentity == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    EmpresasEntity = empresasentity;
+                }
+                return Page();
             }
 
-            var empresasentity = await _context.EmpresasEntity.FirstOrDefaultAsync(m => m.Id == id);
-            if (empresasentity == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                EmpresasEntity = empresasentity;
-            }
-            return Page();
+            return NotFound();
         }
     }
 }

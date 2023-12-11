@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Teste.Model;
-using Teste.Servico;
+using Teste.Servico.Interface;
 
 namespace Teste.Controllers
 {
@@ -10,23 +9,23 @@ namespace Teste.Controllers
     public class EmpresaController : ControllerBase
     {
 
-        private readonly EmpresaServico _empresaServico;
+        private readonly IEmpresaServico _empresaServico;
 
-        public EmpresaController(EmpresaServico empresaServico)
+        public EmpresaController(IEmpresaServico empresaServico)
         {
             _empresaServico = empresaServico;
         }
 
-        [HttpGet("{nome}/{cnpj}")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<EmpresasEntity>>> GetEmpresas(string? nome, string? cnpj)
         {
-            return await _empresaServico.GetEmpresas(nome, cnpj);
+            return _empresaServico.GetEmpresas(nome, cnpj);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<EmpresasEntity>> GetEmpresas(int id)
         {
-            var empresa = await _empresaServico.GetEmpresa(id);
+            var empresa = _empresaServico.BuscarEmpresa(id);
 
             if (empresa == null)
             {
@@ -37,28 +36,28 @@ namespace Teste.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<EmpresasEntity>> PostEmpresas(EmpresasEntity empresa)
+        public async Task<ActionResult<EmpresasEntity>> CriarEmpresas(EmpresasEntity empresa)
         {
-            return Ok(_empresaServico.PostEmpresas(empresa));
+            return Ok(_empresaServico.CriarEmpresas(empresa));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmpresas(int id, EmpresasEntity empresa)
+        public async Task<IActionResult> AlterarEmpresas(int id, EmpresasEntity empresa)
         {
 
             if(empresa.Id != id)
             {
                 return BadRequest();
             }
-            _empresaServico.PutEmpresas(id, empresa);
+            _empresaServico.AlterarEmpresas(id, empresa);
             return NoContent();
 
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmpresas(int id)
+        public async Task<IActionResult> DeletarEmpresas(int id)
         {
-            _empresaServico.DeleteEmpresas(id);
+            _empresaServico.DeletarEmpresas(id);
             return NoContent();
         }
 

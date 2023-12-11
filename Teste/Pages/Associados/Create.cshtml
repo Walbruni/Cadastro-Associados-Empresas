@@ -26,9 +26,17 @@
             </div>
             <br />
             <div class="form-group">
-                <label asp-for="AssociadosEntity.Data_Nascimento" class="control-label"></label>
-                <input asp-for="AssociadosEntity.Data_Nascimento" class="form-control" />
+                <label asp-for="AssociadosEntity.DataNascimento" class="control-label"></label>
+                <input asp-for="AssociadosEntity.DataNascimento" class="form-control" />
             </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Empresas"></label>
+                <select asp-for="SelectedEmpresa" asp-items="Model.Empresas" class="form-control" multiple></select>
+                <span asp-validation-for="SelectedEmpresa" class="text-danger"></span>
+            </div>
+
+
             <br />
             <div class="form-group">
                 <input type="submit" value="Cadastrar" class="btn btn-success" />

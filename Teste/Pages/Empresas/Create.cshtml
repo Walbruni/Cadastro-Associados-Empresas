@@ -26,6 +26,13 @@
             </div>
             <br />
             <div class="form-group">
+                <label asp-for="Associados"></label>
+                <select asp-for="SelectedAssociado" asp-items="Model.Associados" class="form-control" multiple></select>
+                <span asp-validation-for="SelectedAssociado" class="text-danger"></span>
+            </div>
+           
+            <br />
+            <div class="form-group">
                 <input type="submit" value="Cadastrar" class="btn btn-success" />
             </div>
         </form>

@@ -1,57 +1,70 @@
-﻿using Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Teste.Data;
 using Teste.Model;
+using Teste.Servico.Interface;
 
 namespace Teste.Servico
 {
-    public class EmpresaServico
+    public class EmpresaServico : IEmpresaServico
     {
 
-        private readonly EmpresaContext _context;
+        private readonly AplicationDbContext _context;
 
-        public EmpresaServico(EmpresaContext context)
+        public EmpresaServico(AplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<EmpresasEntity>>> GetEmpresas(string? nome, string? cnpj)
+        public List<EmpresasEntity> GetEmpresas(string? nome, string? cnpj)
         {
-            return await _context.Empresas.Where(x => x.Nome == nome && x.CNPJ == cnpj).ToListAsync();
+
+            if (nome != null && cnpj != null)
+            {
+                return _context.EmpresasEntity.Where(x => x.Nome == nome && x.CNPJ == cnpj).ToList();
+            }
+            if (nome != null)
+            {
+                return _context.EmpresasEntity.Where(x => x.Nome == nome).ToList();
+            }
+            if (cnpj != null)
+            {
+                return _context.EmpresasEntity.Where(x => x.CNPJ == cnpj).ToList();
+            }
+            return _context.EmpresasEntity.ToList();
+
         }
 
-        public async Task<ActionResult<EmpresasEntity>> GetEmpresa(int id)
+        public EmpresasEntity BuscarEmpresa(int id)
         {
-            return await _context.Empresas.FindAsync(id);
+            return _context.EmpresasEntity.Find(id);
         }
 
-        public EntityEntry<EmpresasEntity> PostEmpresas(EmpresasEntity empresa)
+        public async Task<EmpresasEntity> CriarEmpresas(EmpresasEntity empresa)
         {
-            var x = _context.Empresas.Add(empresa);
-            _context.SaveChangesAsync();
-            return x;
+            var x = await _context.EmpresasEntity.AddAsync(empresa);
+            await _context.SaveChangesAsync();
+            return x.Entity;
         }
 
-        public async void PutEmpresas(int id, EmpresasEntity empresa)
+        public async Task AlterarEmpresas(int id, EmpresasEntity empresa)
         {
 
-            var empresaRetorno = await _context.Empresas.FindAsync(id);
+            var empresaRetorno = _context.EmpresasEntity.Find(id);
             if (empresaRetorno != null)
             {
-                _context.Empresas.Update(empresa);
+                empresaRetorno.Nome = empresa.Nome;
+                empresaRetorno.CNPJ = empresa.CNPJ;
+                _context.EmpresasEntity.Update(empresaRetorno);
                 await _context.SaveChangesAsync();
             }
-            
+
         }
 
-        public async void DeleteEmpresas(int id)
+        public async Task DeletarEmpresas(int id)
         {
-            var empresa = await _context.Empresas.FindAsync(id);
+            var empresa = _context.EmpresasEntity.Find(id);
             if (empresa != null)
             {
-                _context.Empresas.Remove(empresa);
+                _context.EmpresasEntity.Remove(empresa);
                 await _context.SaveChangesAsync();
             }
             

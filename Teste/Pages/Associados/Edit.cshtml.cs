@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Teste.Data;
 using Teste.Model;
+using Teste.Servico.Interface;
 
 namespace Teste.Pages.Associados
 {
     public class EditModel : PageModel
     {
-        private readonly Teste.Data.AplicationDbContext _context;
+        private readonly IAssociadoServico _associadoServico;
 
-        public EditModel(Teste.Data.AplicationDbContext context)
+        public EditModel(IAssociadoServico associadoServico)
         {
-            _context = context;
+            _associadoServico = associadoServico;
         }
 
         [BindProperty]
         public AssociadosEntity AssociadosEntity { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var associadosentity =  await _context.AssociadosEntity.FirstOrDefaultAsync(m => m.Id == id);
+            var associadosentity = _associadoServico.BuscarAssociado(id);
             if (associadosentity == null)
             {
                 return NotFound();
@@ -39,8 +33,6 @@ namespace Teste.Pages.Associados
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,11 +40,9 @@ namespace Teste.Pages.Associados
                 return Page();
             }
 
-            _context.Attach(AssociadosEntity).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _associadoServico.AlterarAssociados(AssociadosEntity.Id, AssociadosEntity);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +61,12 @@ namespace Teste.Pages.Associados
 
         private bool AssociadosEntityExists(int id)
         {
-            return _context.AssociadosEntity.Any(e => e.Id == id);
+            var associadosentity = _associadoServico.BuscarAssociado(id);
+            if (associadosentity != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

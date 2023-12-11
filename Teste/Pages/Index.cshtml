@@ -4,22 +4,10 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Associados & Empresas</h1>
-    <p>Abaixo você confere uma listagem de nossas empresas e seus associados</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Associados & Empresas</h1>
+    </div>
 
-<div class="col">
-    @foreach(var empresa in Model.Empresas)
-    {
-        @empresa.Nome
-    }
-</div>
 
-<div class="col">
-    @foreach(var associado in Model.Associados)
-    {
-        @associado.Nome
-    }
 
-</div>
+
